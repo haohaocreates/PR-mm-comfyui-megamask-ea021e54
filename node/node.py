@@ -42,7 +42,8 @@ class ColorListMaskToImage:
         
         masks = tensor2np(mask)
         images = []
-        colors = colorlist.split(",")
+        print('colorlist', colorlist)
+        colors = colorlist["string"].split(",")
         idx = 0
         for m in masks:
             _mask = Image.fromarray(m).convert("L")
