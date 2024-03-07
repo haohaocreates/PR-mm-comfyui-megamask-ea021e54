@@ -116,7 +116,7 @@ class FlattenAndCombineMaskImages:
             return (composite,)
         else:
             # Return None or appropriate signal to indicate waiting for more images
-            return (None,)
+            pass
 
 
 NODE_CLASS_MAPPINGS = {
