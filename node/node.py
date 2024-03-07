@@ -88,9 +88,19 @@ class FlattenAndCombineMaskImages:
     FUNCTION = "run"
     OUTPUT_NODE = True
 
+    def alpha_composite(bottom, top):
+        # Assumes both tensors are of shape [C, H, W] with C=4 (RGBA)
+        alpha_top = top[3:4]
+        alpha_bottom = bottom[3:4]
+        composite = (alpha_top * top[:3] + alpha_bottom * (1 - alpha_top) * bottom[:3]) / (alpha_top + alpha_bottom * (1 - alpha_top))
+        composite_alpha = alpha_top + alpha_bottom * (1 - alpha_top)
+        return torch.cat((composite, composite_alpha), dim=0)
+
     def run(self, image):
-        newimage = torch.cat([img.unsqueeze(0) for img in image], dim=0)
-        return (newimage,)
+        composite = image[0]
+        for _image in image[1:]:
+            composite = self.alpha_composite(composite, _image)
+        return (composite,)
 
 
 NODE_CLASS_MAPPINGS = {
