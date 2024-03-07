@@ -38,13 +38,11 @@ class ColorListMaskToImage:
     FUNCTION = "render_mask"
     OUTPUT_NODE = True
 
-    idx = 0
-    def select_next_color(self, colorlist):
+    def select_next_color(self, colorlist, idx):
         print('colorlist', colorlist)
         colors = colorlist["string"].split(",")
         print('colors', colors)
-        color = colors[self.idx]
-        self.idx += 1
+        color = colors[idx]
         return color
 
     def render_mask(self, mask, colorlist, background):
@@ -56,7 +54,8 @@ class ColorListMaskToImage:
         idx = 0
         for m in masks:
             _mask = Image.fromarray(m).convert("L")
-            color = self.select_next_color(colorlist)
+            color = self.select_next_color(colorlist, idx)
+            idx += 1
             print('selected color', color)
             image = Image.new("RGBA", _mask.size, color=color)
             # apply the mask
