@@ -28,7 +28,7 @@ class ColorListMaskToImage:
         return {
             "required": {
                 "mask": ("MASK",),
-                "colorlist": ("STRING",),
+                "colorlist": ("STR",),
                 "background": ("COLOR", {"default": "#000000"}),
             }
         }
