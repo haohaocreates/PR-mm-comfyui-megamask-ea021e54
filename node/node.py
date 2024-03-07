@@ -72,10 +72,33 @@ class ColorListMaskToImage:
 
         return (pil2tensor(images),)
 
+class FlattenAndCombineMaskImages:
+    """Flattens/combines mask images from ColorListMaskToImage"""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "image": ("IMAGE",)
+            }
+        }
+
+    CATEGORY = "meshmesh"
+    RETURN_TYPES = ("IMAGE",)
+    FUNCTION = "run"
+    OUTPUT_NODE = True
+
+    def run(self, image):
+        newimage = torch.cat(image, dim=0)
+        return (newimage,)
+
+
 NODE_CLASS_MAPPINGS = {
-    "ColorListMaskToImage": ColorListMaskToImage
+    "ColorListMaskToImage": ColorListMaskToImage,
+    "FlattenAndCombineMaskImages": FlattenAndCombineMaskImages
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "ColorListMaskToImage": "ColorListMaskToImage"
+    "ColorListMaskToImage": "ColorListMaskToImage",
+    "FlattenAndCombineMaskImages": "FlattenAndCombineMaskImages"
 }
