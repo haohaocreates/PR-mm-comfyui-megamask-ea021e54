@@ -91,7 +91,7 @@ class FlattenAndCombineMaskImages:
     FUNCTION = "run"
     OUTPUT_NODE = True
 
-    def alpha_composite(bottom, top):
+    def alpha_composite(self,bottom, top):
         # Assumes both tensors are of shape [C, H, W] with C=4 (RGBA)
         alpha_top = top[3:4]
         alpha_bottom = bottom[3:4]
@@ -103,7 +103,7 @@ class FlattenAndCombineMaskImages:
         self.images.append(image)
         
         # Check if we've received all images
-        if len(self.images) == 4:  # assuming you're always expecting 4 images
+        if len(self.images) == count: # All images received
             composite = self.images[0].squeeze(0)  # Remove the batch dimension
             for _image in self.images[1:]:
                 _image_squeezed = _image.squeeze(0)  # Remove the batch dimension
