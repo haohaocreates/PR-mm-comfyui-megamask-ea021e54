@@ -38,16 +38,26 @@ class ColorListMaskToImage:
     FUNCTION = "render_mask"
     OUTPUT_NODE = True
 
+    idx = 0
+    def select_next_color(self, colorlist):
+        print('colorlist', colorlist)
+        colors = colorlist["string"].split(",")
+        print('colors', colors)
+        color = colors[self.idx]
+        self.idx += 1
+        return color
+
     def render_mask(self, mask, colorlist, background):
         
         masks = tensor2np(mask)
         images = []
         print('colorlist', colorlist)
-        colors = colorlist["string"].split(",")
+        
         idx = 0
         for m in masks:
             _mask = Image.fromarray(m).convert("L")
-            color = colors[idx]
+            color = self.select_next_color(colorlist)
+            print('selected color', color)
             image = Image.new("RGBA", _mask.size, color=color)
             # apply the mask
             image = Image.composite(
