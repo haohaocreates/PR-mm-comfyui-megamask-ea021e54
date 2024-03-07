@@ -82,7 +82,7 @@ class FlattenAndCombineMaskImages:
         return {
             "required": {
                 "image": ("IMAGE",),
-                "count": ("INT",)
+                "count": ("INTEGER",)
             }
         }
 
