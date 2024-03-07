@@ -97,6 +97,7 @@ class FlattenAndCombineMaskImages:
         return torch.cat((composite, composite_alpha), dim=0)
 
     def run(self, image):
+        print('image tensor shapte', image.shape)
         composite = image[0]
         for _image in image[1:]:
             composite = self.alpha_composite(composite, _image)
