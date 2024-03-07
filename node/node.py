@@ -89,7 +89,7 @@ class FlattenAndCombineMaskImages:
     OUTPUT_NODE = True
 
     def run(self, image):
-        newimage = torch.cat(image, dim=0)
+        newimage = torch.cat(tuple(image), dim=0)
         return (newimage,)
 
 
