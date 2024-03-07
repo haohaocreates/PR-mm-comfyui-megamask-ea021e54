@@ -34,10 +34,9 @@ class ColorListMaskToImage:
         }
 
     CATEGORY = "mm/masks"
-
     RETURN_TYPES = ("IMAGE",)
-
     FUNCTION = "render_mask"
+    OUTPUT_NODE = True
 
     def render_mask(self, mask, color_list, background):
         masks = tensor2np(mask)
