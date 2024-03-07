@@ -1,20 +1,8 @@
 import torch
 from PIL import Image
 import numpy as np
-import itertools
-import json
-import math
-import os
 
-import cv2
-import numpy as np
-import torch
-import torch.nn.functional as F
-from PIL import Image
-from PIL.PngImagePlugin import PngInfo
-from skimage.filters import gaussian
-from skimage.util import compare_images
-from typing import List, Optional, Union
+from typing import List, Union
 
 def tensor2np(tensor: torch.Tensor) -> List[np.ndarray]:
     batch_count = tensor.size(0) if len(tensor.shape) > 3 else 1
@@ -32,7 +20,7 @@ def pil2tensor(image: Union[Image.Image, List[Image.Image]]) -> torch.Tensor:
 
     return torch.from_numpy(np.array(image).astype(np.float32) / 255.0).unsqueeze(0)
 
-class MaskToImage:
+class ColorListMaskToImage:
     """Converts a mask (alpha) to an RGB image with a color and background"""
 
     @classmethod
@@ -70,6 +58,14 @@ class MaskToImage:
             # image = Image.alpha_composite(Image.new("RGBA", image.size, color=background), image)
 
             images.append(image.convert("RGB"))
-            
+
 
         return (pil2tensor(images),)
+
+NODE_CLASS_MAPPINGS = {
+    "ColorListMaskToImage": ColorListMaskToImage
+}
+
+NODE_DISPLAY_NAME_MAPPINGS = {
+    "ColorListMaskToImage": "ColorListMaskToImage"
+}
