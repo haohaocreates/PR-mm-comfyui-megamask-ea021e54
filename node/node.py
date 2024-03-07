@@ -74,12 +74,15 @@ class ColorListMaskToImage:
 
 class FlattenAndCombineMaskImages:
     """Flattens/combines mask images from ColorListMaskToImage"""
+    def __init__(self):
+        self.images = []
 
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "image": ("IMAGE",)
+                "image": ("IMAGE",),
+                "count": ("INT",)
             }
         }
 
@@ -96,12 +99,24 @@ class FlattenAndCombineMaskImages:
         composite_alpha = alpha_top + alpha_bottom * (1 - alpha_top)
         return torch.cat((composite, composite_alpha), dim=0)
 
-    def run(self, image):
-        print('image tensor shapte', image.shape)
-        composite = image[0]
-        for _image in image[1:]:
-            composite = self.alpha_composite(composite, _image)
-        return (composite,)
+    def run(self, image, count):
+        self.images.append(image)
+        
+        # Check if we've received all images
+        if len(self.images) == 4:  # assuming you're always expecting 4 images
+            composite = self.images[0].squeeze(0)  # Remove the batch dimension
+            for _image in self.images[1:]:
+                _image_squeezed = _image.squeeze(0)  # Remove the batch dimension
+                composite = self.alpha_composite(composite, _image_squeezed)
+
+            # Reset images for the next batch
+            self.images = []
+
+            # Return the composite image
+            return (composite,)
+        else:
+            # Return None or appropriate signal to indicate waiting for more images
+            return (None,)
 
 
 NODE_CLASS_MAPPINGS = {
