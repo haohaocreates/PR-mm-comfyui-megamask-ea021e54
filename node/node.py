@@ -40,6 +40,7 @@ class ColorListMaskToImage:
 
     def select_next_color(self, colorlist, idx):
         print('colorlist', colorlist)
+        print('idx', idx)
         colors = colorlist["string"].split(",")
         print('colors', colors)
         color = colors[idx]
