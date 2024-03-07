@@ -33,7 +33,7 @@ class ColorListMaskToImage:
             }
         }
 
-    CATEGORY = "mm/masks"
+    CATEGORY = "meshmesh"
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "render_mask"
     OUTPUT_NODE = True
