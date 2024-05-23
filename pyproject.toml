@@ -1,0 +1,14 @@
+[project]
+name = "mm-comfyui-megamask"
+description = "Nodes:ColorListMaskToImage, FlattenAndCombineMaskImages"
+version = "1.0.0"
+license = "LICENSE"
+
+[project.urls]
+Repository = "https://github.com/meshmesh-io/mm-comfyui-megamask"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "mm-comfyui-megamask"
+Icon = ""
